@@ -58,6 +58,9 @@ color:white;
 
 <table id="tabelle">
 
+<p><b>Erkannter Text:</b></p>
+<pre id="debug"></pre>
+
 <thead>
 <tr>
 <th>Stand</th>
@@ -131,6 +134,7 @@ file,
 );
 
 const text = result.data.text.toLowerCase();
+document.getElementById("debug").textContent = result.data.text;
 
 let artikel=[];
 
