@@ -1,5 +1,25 @@
 const map = L.map('map',{zoomControl:false}).setView([49.6038,8.2636],16);
 
+if (navigator.geolocation) {
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+const lat = position.coords.latitude;
+const lon = position.coords.longitude;
+
+L.circleMarker([lat,lon],{
+radius:8,
+color:"#2563eb",
+fillColor:"#2563eb",
+fillOpacity:1
+})
+.addTo(map)
+.bindPopup("📍 Sie sind hier");
+
+});
+
+}
+
 const artikelListe = [
 "babykleidung",
 "kinderkleidung",
