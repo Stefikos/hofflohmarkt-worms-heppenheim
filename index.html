@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hofflohmarkt Worms-Heppenheim</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+}
+
+#map{
+height:100vh;
+}
+
+#artikelFilter{
+position:absolute;
+top:10px;
+left:10px;
+z-index:2000;
+background:white;
+padding:8px;
+font-size:16px;
+border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<select id="artikelFilter">
+<option value="">Welchen Artikel suchen Sie?</option>
+</select>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

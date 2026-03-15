@@ -1,0 +1,22 @@
+[
+  {
+    "stand_nummer": 1,
+    "verkaufsanschrift": "Dornfelderring 6, 67551 Worms",
+    "latitude": 49.6038,
+    "longitude": 8.2636,
+    "artikel": {
+      "babykleidung": false,
+      "kinderkleidung": false,
+      "erwachsenenkleidung": false,
+      "haushalt": false,
+      "moebel": false,
+      "schmuck": false,
+      "spielzeug": true,
+      "spielgeraete": false,
+      "kinderbuecher": true,
+      "jugendbuecher": false,
+      "erwachsenenbuecher": false,
+      "sonstiges": false
+    }
+  }
+]
