@@ -70,8 +70,16 @@ const artikel=Object.entries(p.artikel)
  .join("<br>");
 
 marker.bindPopup(
+ "<div style='font-size:15px;line-height:1.4'>"+
  "<b>Stand "+p.stand_nummer+"</b><br>"+
- p.verkaufsanschrift+"<br><br>"+artikel
+ p.verkaufsanschrift+
+ "<br><br>"+
+ artikel+
+ "<br><br>"+
+ "<a target='_blank' style='display:inline-block;padding:6px 10px;background:#2563eb;color:white;text-decoration:none;border-radius:6px;font-weight:bold' href='https://www.google.com/maps/dir/?api=1&destination="
+ +p.latitude+","+p.longitude+
+ "'>📍 Route starten</a>"+
+ "</div>"
 );
 
 marker.artikel=Object.entries(p.artikel)
