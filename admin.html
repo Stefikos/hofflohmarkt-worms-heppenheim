@@ -39,6 +39,7 @@ background:#f59e0b;
 color:white;
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 
 <body>
@@ -50,6 +51,8 @@ color:white;
 <input type="file" id="fotoInput" accept="image/*" capture="environment">
 
 <p>Formular fotografieren oder Bild hochladen.</p>
+
+<button id="export">participants.json exportieren</button>
 
 </div>
 
@@ -72,27 +75,133 @@ color:white;
 
 const input = document.getElementById("fotoInput");
 const tbody = document.querySelector("#tabelle tbody");
+const exportButton = document.getElementById("export");
 
-let standNummer = 1;
+let daten = JSON.parse(localStorage.getItem("hofflohmarkt")) || [];
 
-input.addEventListener("change", e => {
+function speichern(){
+localStorage.setItem("hofflohmarkt", JSON.stringify(daten));
+}
 
-const file = e.target.files[0];
+function tabelleAktualisieren(){
 
-if(!file) return;
+tbody.innerHTML="";
 
-const row = document.createElement("tr");
+daten.forEach(e=>{
 
-row.innerHTML = `
-<td>${standNummer}</td>
-<td>Adresse wird erkannt...</td>
-<td>Artikel werden erkannt...</td>
-<td>⏳</td>
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${e.stand}</td>
+<td>${e.adresse}</td>
+<td>${e.artikel}</td>
+<td>${e.status}</td>
 `;
 
 tbody.appendChild(row);
 
-standNummer++;
+});
+
+}
+
+tabelleAktualisieren();
+
+input.addEventListener("change", async e=>{
+
+const file=e.target.files[0];
+if(!file) return;
+
+const neuerStand = daten.length+1;
+
+const eintrag={
+stand:neuerStand,
+adresse:"wird erkannt...",
+artikel:"wird erkannt...",
+status:"⏳"
+};
+
+daten.push(eintrag);
+
+speichern();
+tabelleAktualisieren();
+
+const result = await Tesseract.recognize(
+file,
+"deu"
+);
+
+const text = result.data.text.toLowerCase();
+
+let artikel=[];
+
+if(text.includes("babykleidung"))
+artikel.push("Babykleidung");
+
+if(text.includes("kinderkleidung"))
+artikel.push("Kinderkleidung");
+
+if(text.includes("erwachsenenkleidung"))
+artikel.push("Erwachsenenkleidung");
+
+if(text.includes("haushalt"))
+artikel.push("Haushalt");
+
+if(text.includes("möbel") || text.includes("moebel"))
+artikel.push("Möbel");
+
+if(text.includes("schmuck"))
+artikel.push("Schmuck und Sammlungen");
+
+if(text.includes("spielzeug"))
+artikel.push("Spielzeug");
+
+if(text.includes("spielgeräte") || text.includes("spielgerate") || text.includes("fahrzeuge"))
+artikel.push("Spielgeräte/-fahrzeuge");
+
+if(text.includes("kinderbücher") || text.includes("kinderbuecher"))
+artikel.push("Kinderbücher");
+
+if(text.includes("jugendbücher") || text.includes("jugendbuecher"))
+artikel.push("Jugendbücher");
+
+if(text.includes("erwachsenenbücher") || text.includes("erwachsenenbuecher"))
+artikel.push("Erwachsenenbücher");
+
+if(text.includes("sonstiges"))
+artikel.push("Sonstiges");
+
+let adresse="Adresse prüfen";
+
+const match = text.match(/[a-zäöüß]+(straße|strasse|ring|weg|gasse|platz)\s+\d+/);
+
+if(match) adresse=match[0];
+adresse = adresse + ", 67551 Worms-Heppenheim";
+
+daten[daten.length-1].adresse=adresse;
+daten[daten.length-1].artikel=artikel.join(", ");
+
+daten[daten.length-1].status="✔";
+
+speichern();
+tabelleAktualisieren();
+
+});
+
+
+exportButton.addEventListener("click",()=>{
+
+const json = JSON.stringify(daten,null,2);
+
+const blob = new Blob([json],{type:"application/json"});
+
+const url = URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download="participants.json";
+
+a.click();
 
 });
 
