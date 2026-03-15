@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hofflohmarkt Worms-Heppenheim</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-body{
+html,body{
+height:100%;
 margin:0;
-font-family:sans-serif;
 }
 
 #map{
-height:100vh;
+height:100%;
+width:100%;
 }
 
-#artikelFilter{
+#filterBox{
 position:absolute;
 top:10px;
 left:10px;
-z-index:2000;
+z-index:1000;
 background:white;
 padding:8px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+
+#artikelFilter{
 font-size:16px;
-border-radius:6px;
+padding:6px;
+max-width:80vw;
 }
 </style>
 
@@ -32,9 +40,11 @@ border-radius:6px;
 
 <body>
 
+<div id="filterBox">
 <select id="artikelFilter">
 <option value="">Welchen Artikel suchen Sie?</option>
 </select>
+</div>
 
 <div id="map"></div>
 
