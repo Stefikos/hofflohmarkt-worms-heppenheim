@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hofflohmarkt Admin</title>
+
+<style>
+body{
+font-family:Arial;
+margin:40px;
+background:#f4f4f4;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+#upload{
+padding:20px;
+background:white;
+border-radius:8px;
+margin-bottom:30px;
+}
+
+table{
+border-collapse:collapse;
+width:100%;
+background:white;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:left;
+}
+
+th{
+background:#f59e0b;
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Hofflohmarkt Formular Import</h1>
+
+<div id="upload">
+
+<input type="file" id="fotoInput" accept="image/*" capture="environment">
+
+<p>Formular fotografieren oder Bild hochladen.</p>
+
+</div>
+
+<table id="tabelle">
+
+<thead>
+<tr>
+<th>Stand</th>
+<th>Adresse</th>
+<th>Artikel</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+<script>
+
+const input = document.getElementById("fotoInput");
+const tbody = document.querySelector("#tabelle tbody");
+
+let standNummer = 1;
+
+input.addEventListener("change", e => {
+
+const file = e.target.files[0];
+
+if(!file) return;
+
+const row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${standNummer}</td>
+<td>Adresse wird erkannt...</td>
+<td>Artikel werden erkannt...</td>
+<td>⏳</td>
+`;
+
+tbody.appendChild(row);
+
+standNummer++;
+
+});
+
+</script>
+
+</body>
+</html>
