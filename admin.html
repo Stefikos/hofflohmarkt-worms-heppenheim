@@ -78,7 +78,6 @@ color:white;
 
 const input = document.getElementById("fotoInput");
 const tbody = document.querySelector("#tabelle tbody");
-const exportButton = document.getElementById("export");
 
 let daten = JSON.parse(localStorage.getItem("hofflohmarkt")) || [];
 
@@ -94,7 +93,7 @@ daten.forEach(e=>{
 
 const row=document.createElement("tr");
 
-row.innerHTML=`
+row.innerHTML = `
 <td>${e.stand}</td>
 
 <td contenteditable="true" 
@@ -110,7 +109,7 @@ ${e.artikel}
 <td>${e.status}</td>
 
 <td>
-<button onclick="check(${e.stand})">✔</button>
+<button onclick="pruefeAdresse(${e.stand})">📍</button>
 <button onclick="loeschen(${e.stand})">🗑</button>
 </td>
 `;
@@ -148,116 +147,148 @@ file,
 );
 
 const text = result.data.text.toLowerCase();
-document.getElementById("debug").textContent = result.data.text;
 
 let artikel=[];
 
-if(text.includes("babykleidung"))
-artikel.push("Babykleidung");
+function istAngekreuzt(text, begriff){
+  const index = text.indexOf(begriff);
+  if(index === -1) return false;
 
-if(text.includes("kinderkleidung"))
-artikel.push("Kinderkleidung");
+  const umfeld = text.substring(index - 5, index + 20);
+  return umfeld.includes("x");
+}
 
-if(text.includes("erwachsenenkleidung"))
-artikel.push("Erwachsenenkleidung");
+// ALLE Kategorien
 
-if(text.includes("haushalt"))
-artikel.push("Haushalt");
+if(istAngekreuzt(text,"babykleidung")) artikel.push("Babykleidung");
+if(istAngekreuzt(text,"kinderkleidung")) artikel.push("Kinderkleidung");
+if(istAngekreuzt(text,"erwachsenenkleidung")) artikel.push("Erwachsenenkleidung");
 
-if(text.includes("möbel") || text.includes("moebel"))
-artikel.push("Möbel");
+if(istAngekreuzt(text,"haushalt")) artikel.push("Haushalt");
+if(istAngekreuzt(text,"möbel") || istAngekreuzt(text,"moebel")) artikel.push("Möbel");
 
-if(text.includes("schmuck"))
-artikel.push("Schmuck und Sammlungen");
+if(istAngekreuzt(text,"schmuck")) artikel.push("Schmuck");
 
-if(text.includes("spielzeug"))
-artikel.push("Spielzeug");
+if(istAngekreuzt(text,"spielzeug")) artikel.push("Spielzeug");
+if(istAngekreuzt(text,"spielgeräte") || istAngekreuzt(text,"spielgeraete")) artikel.push("Spielgeräte");
 
-if(text.includes("spielgeräte") || text.includes("spielgerate") || text.includes("fahrzeuge"))
-artikel.push("Spielgeräte/-fahrzeuge");
+if(istAngekreuzt(text,"kinderbücher") || istAngekreuzt(text,"kinderbuecher")) artikel.push("Kinderbücher");
+if(istAngekreuzt(text,"jugendbücher") || istAngekreuzt(text,"jugendbuecher")) artikel.push("Jugendbücher");
+if(istAngekreuzt(text,"erwachsenenbücher") || istAngekreuzt(text,"erwachsenenbuecher")) artikel.push("Erwachsenenbücher");
 
-if(text.includes("kinderbücher") || text.includes("kinderbuecher"))
-artikel.push("Kinderbücher");
+if(istAngekreuzt(text,"sonstiges")) artikel.push("Sonstiges");
 
-if(text.includes("jugendbücher") || text.includes("jugendbuecher"))
-artikel.push("Jugendbücher");
-
-if(text.includes("erwachsenenbücher") || text.includes("erwachsenenbuecher"))
-artikel.push("Erwachsenenbücher");
-
-if(text.includes("sonstiges"))
-artikel.push("Sonstiges");
-
+// Adresse grob erkennen
 let adresse="Adresse prüfen";
 
-const match = text.match(/[a-zäöüß]+(straße|strasse|ring|weg|gasse|platz)\s+\d+/);
+const match = text.match(/[a-zäöüß]+\s+\d+/);
 
-if(match) adresse=match[0];
-adresse = adresse + ", 67551 Worms-Heppenheim";
+if(match) adresse = match[0] + ", 67551 Worms";
 
-daten[daten.length-1].adresse=adresse;
-daten[daten.length-1].artikel=artikel.join(", ");
+// Ergebnis eintragen
+const letzter = daten[daten.length-1];
 
-daten[daten.length-1].status="✔";
+let adresseGefunden = false;
+
+try{
+const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(adresse + ", 67551 Worms-Heppenheim"));
+const data = await res.json();
+
+if(data.length > 0){
+letzter.latitude = data[0].lat;
+letzter.longitude = data[0].lon;
+adresseGefunden = true;
+}
+}catch(e){}
+
+letzter.adresse = adresse;
+letzter.artikel = artikel.join(", ");
+letzter.status = adresseGefunden ? "✔" : "⚠ Adresse prüfen";
 
 speichern();
 tabelleAktualisieren();
 
 });
 
+function loeschen(stand){
+daten = daten.filter(e => e.stand !== stand);
 
-exportButton.addEventListener("click",()=>{
-
-const json = JSON.stringify(daten,null,2);
-
-const blob = new Blob([json],{type:"application/json"});
-
-const url = URL.createObjectURL(blob);
-
-const a=document.createElement("a");
-
-a.href=url;
-a.download="participants.json";
-
-a.click();
-
-});
-function updateAdresse(stand, wert){
-const eintrag = daten.find(e => e.stand === stand);
-if(eintrag){
-eintrag.adresse = wert;
 speichern();
+tabelleAktualisieren();
 }
+
+async function updateAdresse(stand, wert){
+
+const eintrag = daten.find(e => e.stand === stand);
+if(!eintrag) return;
+
+eintrag.adresse = wert;
+eintrag.status = "⏳ prüfen";
+
+speichern();
+tabelleAktualisieren();
+
+let gefunden = false;
+
+try{
+const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(wert + ", 67551 Worms-Heppenheim"));
+const data = await res.json();
+
+if(data.length > 0){
+eintrag.latitude = data[0].lat;
+eintrag.longitude = data[0].lon;
+gefunden = true;
+}
+}catch(e){}
+
+eintrag.status = gefunden ? "✔" : "⚠ Adresse prüfen";
+
+speichern();
+tabelleAktualisieren();
 }
 
 function updateArtikel(stand, wert){
 const eintrag = daten.find(e => e.stand === stand);
 if(eintrag){
 eintrag.artikel = wert;
-speichern();
-}
-}
-
-function loeschen(stand){
-
-daten = daten.filter(e => e.stand !== stand);
-
+eintrag.status = "✏️ geändert";
 speichern();
 tabelleAktualisieren();
-
+}
 }
 
-function check(stand){
+async function pruefeAdresse(stand){
 
 const eintrag = daten.find(e => e.stand === stand);
+if(!eintrag) return;
 
-if(eintrag){
-eintrag.status = "✔";
+const adresse = eintrag.adresse + ", Worms";
+
+try{
+const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(adresse));
+const data = await res.json();
+
+if(data.length > 0){
+
+eintrag.latitude = data[0].lat;
+eintrag.longitude = data[0].lon;
+eintrag.status = "✔ Adresse gefunden";
+
+}else{
+
+eintrag.status = "⚠ Adresse prüfen";
+
+}
+
+}catch(e){
+eintrag.status = "⚠ Fehler";
+}
+
 speichern();
 tabelleAktualisieren();
-}
 
 }
+
 </script>
 
 </body>
