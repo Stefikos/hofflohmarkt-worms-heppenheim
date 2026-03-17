@@ -110,6 +110,7 @@ ${e.artikel}
 <td>${e.status}</td>
 
 <td>
+<button onclick="check(${e.stand})">✔</button>
 <button onclick="loeschen(${e.stand})">🗑</button>
 </td>
 `;
@@ -243,6 +244,18 @@ daten = daten.filter(e => e.stand !== stand);
 
 speichern();
 tabelleAktualisieren();
+
+}
+
+function check(stand){
+
+const eintrag = daten.find(e => e.stand === stand);
+
+if(eintrag){
+eintrag.status = "✔";
+speichern();
+tabelleAktualisieren();
+}
 
 }
 </script>
