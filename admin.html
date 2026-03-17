@@ -155,7 +155,7 @@ function istAngekreuzt(text, begriff){
   if(index === -1) return false;
 
   const umfeld = text.substring(index - 5, index + 20);
-  return umfeld.includes("x");
+  return /x|×|\[x\]/.test(umfeld);
 }
 
 // ALLE Kategorien
@@ -203,7 +203,15 @@ adresseGefunden = true;
 
 letzter.adresse = adresse;
 letzter.artikel = artikel.join(", ");
-letzter.status = adresseGefunden ? "✔" : "⚠ Adresse prüfen";
+if(!adresseGefunden){
+  letzter.status = "⚠ Adresse prüfen";
+}
+else if(artikel.length === 0){
+  letzter.status = "⚠ Artikel prüfen";
+}
+else{
+  letzter.status = "✔";
+}
 
 speichern();
 tabelleAktualisieren();
