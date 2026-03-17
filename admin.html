@@ -96,9 +96,22 @@ const row=document.createElement("tr");
 
 row.innerHTML=`
 <td>${e.stand}</td>
-<td>${e.adresse}</td>
-<td>${e.artikel}</td>
+
+<td contenteditable="true" 
+onblur="updateAdresse(${e.stand}, this.innerText)">
+${e.adresse}
+</td>
+
+<td contenteditable="true" 
+onblur="updateArtikel(${e.stand}, this.innerText)">
+${e.artikel}
+</td>
+
 <td>${e.status}</td>
+
+<td>
+<button onclick="loeschen(${e.stand})">🗑</button>
+</td>
 `;
 
 tbody.appendChild(row);
@@ -208,7 +221,30 @@ a.download="participants.json";
 a.click();
 
 });
+function updateAdresse(stand, wert){
+const eintrag = daten.find(e => e.stand === stand);
+if(eintrag){
+eintrag.adresse = wert;
+speichern();
+}
+}
 
+function updateArtikel(stand, wert){
+const eintrag = daten.find(e => e.stand === stand);
+if(eintrag){
+eintrag.artikel = wert;
+speichern();
+}
+}
+
+function loeschen(stand){
+
+daten = daten.filter(e => e.stand !== stand);
+
+speichern();
+tabelleAktualisieren();
+
+}
 </script>
 
 </body>
