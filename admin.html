@@ -96,9 +96,8 @@ const row=document.createElement("tr");
 row.innerHTML = `
 <td>${e.stand}</td>
 
-<td contenteditable="true" 
-onblur="updateAdresse(${e.stand}, this.innerText)">
-${e.adresse}
+<td> 
+${renderArtikelCheckboxen(e)}
 </td>
 
 <td contenteditable="true" 
@@ -109,7 +108,6 @@ ${e.artikel}
 <td>${e.status}</td>
 
 <td>
-<button onclick="pruefeAdresse(${e.stand})">📍</button>
 <button onclick="loeschen(${e.stand})">🗑</button>
 </td>
 `;
@@ -295,6 +293,57 @@ eintrag.status = "⚠ Fehler";
 speichern();
 tabelleAktualisieren();
 
+}
+
+function renderArtikelCheckboxen(e){
+
+const liste = [
+"Babykleidung",
+"Kinderkleidung",
+"Erwachsenenkleidung",
+"Haushalt",
+"Möbel",
+"Schmuck und Sammlungen",
+"Spielzeug",
+"Spielgeräte/-fahrzeuge",
+"Kinderbücher",
+"Jugendbücher",
+"Erwachsenenbücher",
+"Sonstiges"
+];
+
+return liste.map(a => {
+const checked = e.artikel && e.artikel.includes(a) ? "checked" : "";
+
+return `
+<label style="display:block">
+<input type="checkbox" 
+${checked}
+onchange="toggleArtikel(${e.stand}, '${a}')">
+${a}
+</label>
+`;
+}).join("");
+}
+
+function toggleArtikel(stand, artikel){
+
+const eintrag = daten.find(e => e.stand === stand);
+if(!eintrag) return;
+
+let liste = eintrag.artikel ? eintrag.artikel.split(", ").filter(a=>a) : [];
+
+if(liste.includes(artikel)){
+liste = liste.filter(a => a !== artikel);
+}else{
+liste.push(artikel);
+}
+
+eintrag.artikel = liste.join(", ");
+eintrag.status = "✏️ geändert";
+
+speichern();
+tabelleAktualisieren();
 }
 
 </script>
