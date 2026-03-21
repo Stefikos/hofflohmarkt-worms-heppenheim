@@ -1,25 +1,28 @@
 const map = L.map('map',{zoomControl:false}).setView([49.6038,8.2636],16);
 
+// Karte
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+ attribution:'© OpenStreetMap'
+}).addTo(map);
+
+// Standort
 if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position){
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
 
-navigator.geolocation.getCurrentPosition(function(position){
-
-const lat = position.coords.latitude;
-const lon = position.coords.longitude;
-
-L.circleMarker([lat,lon],{
-radius:8,
-color:"#2563eb",
-fillColor:"#2563eb",
-fillOpacity:1
-})
-.addTo(map)
-.bindPopup("📍 Sie sind hier");
-
-});
-
+    L.circleMarker([lat,lon],{
+      radius:8,
+      color:"#2563eb",
+      fillColor:"#2563eb",
+      fillOpacity:1
+    })
+    .addTo(map)
+    .bindPopup("📍 Sie sind hier");
+  });
 }
 
+// Artikel-Liste
 const artikelListe = [
 "babykleidung",
 "kinderkleidung",
@@ -36,128 +39,145 @@ const artikelListe = [
 ];
 
 const artikelNamen = {
-babykleidung: "Babykleidung (Größe 50–92)",
-kinderkleidung: "Kinderkleidung (Größe 98–182)",
+babykleidung: "Babykleidung",
+kinderkleidung: "Kinderkleidung",
 erwachsenenkleidung: "Erwachsenenkleidung",
 haushalt: "Haushalt",
 moebel: "Möbel",
 schmuck: "Schmuck",
 spielzeug: "Spielzeug",
 spielgeraete: "Spielgeräte",
-kinderbuecher: "Kinderbücher (0–10 Jahre)",
-jugendbuecher: "Jugendbücher (11–17 Jahre)",
-erwachsenenbuecher: "Erwachsenenbücher (ab 18)",
+kinderbuecher: "Kinderbücher",
+jugendbuecher: "Jugendbücher",
+erwachsenenbuecher: "Erwachsenenbücher",
 sonstiges: "Sonstiges"
 };
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
- attribution:'© OpenStreetMap'
-}).addTo(map);
+// Normalisierung (wichtig!)
+function normalize(text){
+  return text
+    .toLowerCase()
+    .replace(/ä/g,"ae")
+    .replace(/ö/g,"oe")
+    .replace(/ü/g,"ue")
+    .replace(/ß/g,"ss")
+    .trim();
+}
 
+// Daten laden
 fetch("participants.json")
-.then(r=>r.json())
-.then(data=>{
+.then(r => r.json())
+.then(data => {
 
-const artikelSet=new Set();
-const markerList=[];
+const select = document.getElementById("artikelFilter");
 
-data.forEach(p=>{
+// Dropdown
+select.innerHTML = '<option value="">Welchen Artikel suchen Sie?</option>';
 
-Object.entries(p.artikel).forEach(([k,v])=>{
- if(v) artikelSet.add(k);
-});
+artikelListe.forEach(a => {
 
-const marker=L.marker([p.latitude,p.longitude],{
-icon:L.divIcon({
-className:"custom-marker",
-html:`<div style="
-background:#f59e0b;
-color:black;
-width:28px;
-height:28px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-">${p.stand_nummer}</div>`
-})
-}).addTo(map);
+  const count = data.filter(p => {
+    const artikelArray = p.artikel
+      ? p.artikel.split(",").map(x => normalize(x))
+      : [];
 
-const artikel=Object.entries(p.artikel)
- .filter(([k,v])=>v)
- .map(([k])=>artikelNamen[k])
- .join("<br>");
+    return artikelArray.includes(normalize(artikelNamen[a]));
+  }).length;
 
-marker.bindPopup(
- "<div style='font-size:15px;line-height:1.4'>"+
- "<b>Stand "+p.stand_nummer+"</b><br>"+
- p.verkaufsanschrift+
- "<br><br>"+
- artikel+
- "<br><br>"+
- "<a target='_blank' style='display:inline-block;padding:6px 10px;background:#2563eb;color:white;text-decoration:none;border-radius:6px;font-weight:bold' href='https://www.google.com/maps/dir/?api=1&destination="
- +p.latitude+","+p.longitude+
- "'>📍 Route starten</a>"+
- "</div>"
-);
+  const option = document.createElement("option");
+  option.value = normalize(artikelNamen[a]);
 
-marker.artikel=Object.entries(p.artikel)
- .filter(([k,v])=>v)
- .map(([k])=>k);
+  if(count > 0){
+    option.textContent = `${artikelNamen[a]} (${count})`;
+  } else {
+    option.textContent = artikelNamen[a];
+  }
 
-markerList.push(marker);
+  select.appendChild(option);
 
 });
 
-const select=document.getElementById("artikelFilter");
+// Marker
+const markerList = [];
 
-artikelListe.forEach(a=>{
+data.forEach(p => {
 
-const stands=data
-  .filter(p=>p.artikel[a])
-  .map(p=>p.stand_nummer);
+  const artikelArray = p.artikel
+    ? p.artikel.split(",").map(x => normalize(x))
+    : [];
 
-const o=document.createElement("option");
-o.value=a;
+  if(p.lat && p.lon){
 
-if(stands.length>0){
-  const name = artikelNamen[a];
-const nummern = stands.join(",");
+    const marker = L.marker([
+      parseFloat(p.lat),
+      parseFloat(p.lon)
+    ],{
+      icon: L.divIcon({
+        className: "",
+        html: `<div style="
+          background:#f59e0b;
+          color:black;
+          width:30px;
+          height:30px;
+          border-radius:50%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-weight:bold;
+          font-size:14px;
+          border:2px solid white;
+        ">
+          ${p.stand}
+        </div>`
+      })
+    }).addTo(map);
 
-const count = stands.length;
+    const artikelText = artikelArray
+      .map(a => {
+        const key = Object.keys(artikelNamen).find(k => normalize(artikelNamen[k]) === a);
+        return artikelNamen[key] || a;
+      })
+      .join("<br>");
 
-if(count>0){
-  o.textContent = `${artikelNamen[a]} (${count})`;
-}else{
-  o.textContent = artikelNamen[a];
-}
-}else{
-  o.textContent=artikelNamen[a].padEnd(40," ");
-}
+    marker.bindPopup(
+      "<b>Stand "+p.stand+"</b><br>"+
+      p.adresse+
+      "<br><br>"+
+      artikelText+
+      "<br><br>"+
+      "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&destination="
+      +p.lat+","+p.lon+
+      "'>📍 Route starten</a>"
+    );
 
-select.appendChild(o);
+    marker.artikel = artikelArray;
+
+    markerList.push(marker);
+  }
 
 });
 
+// Filter
 select.addEventListener("change",()=>{
-const val=select.value;
 
-markerList.forEach(m=>{
+const val = normalize(select.value);
 
-const el = m.getElement().querySelector("div");
+markerList.forEach(m => {
 
-if(!val){
-el.style.background="#f59e0b";
-}
-else if(m.artikel.includes(val)){
-el.style.background="#10b981";
-}
-else{
-el.style.background="#9ca3af";
-}
+  const el = m.getElement().querySelector("div");
+
+  if(!val){
+    el.style.background = "#f59e0b"; // orange
+  }
+  else if(m.artikel.includes(val)){
+    el.style.background = "#10b981"; // grün
+  }
+  else{
+    el.style.background = "#9ca3af"; // grau
+  }
 
 });
+
 });
 
 });
