@@ -2,56 +2,56 @@
   {
     "stand": 1,
     "adresse": "Dornfelderring 8",
-    "artikel": "",
+    "artikel": "Kinderkleidung, Möbel, Spielzeug, Kinderbücher",
     "lat": "49.6052182",
     "lon": "8.2577693"
   },
   {
     "stand": 2,
     "adresse": "Wormser Landstraße 112",
-    "artikel": "",
+    "artikel": "Haushalt, Spielgeräte/-fahrzeuge, Schmuck und Sammlungen",
     "lat": "49.6069464",
     "lon": "8.2719670"
   },
   {
     "stand": 3,
     "adresse": "Am Offsteiner Pfad 10",
-    "artikel": "",
+    "artikel": "Möbel",
     "lat": "49.6050204",
     "lon": "8.2586828"
   },
   {
     "stand": 4,
     "adresse": "Pfälzer-Wald-Straße 15",
-    "artikel": "",
+    "artikel": "Erwachsenenkleidung, Jugendbücher, Spielgeräte/-fahrzeuge, Schmuck und Sammlungen",
     "lat": "49.6041455",
     "lon": "8.2630286"
   },
   {
     "stand": 5,
     "adresse": "Obere Bahnhofstraße 5",
-    "artikel": "",
+    "artikel": "Erwachsenenkleidung, Möbel, Spielgeräte/-fahrzeuge, Sonstiges, Jugendbücher",
     "lat": "49.6067538",
     "lon": "8.2630773"
   },
   {
     "stand": 6,
     "adresse": "Am Friedhof 3",
-    "artikel": "",
+    "artikel": "Erwachsenenkleidung, Schmuck und Sammlungen, Jugendbücher, Spielgeräte/-fahrzeuge",
     "lat": "49.6082750",
     "lon": "8.2627947"
   },
   {
     "stand": 7,
     "adresse": "Untere Querstraße 3",
-    "artikel": "",
+    "artikel": "Kinderkleidung, Möbel, Jugendbücher, Spielgeräte/-fahrzeuge",
     "lat": "49.6066044",
     "lon": "8.2638750"
   },
   {
     "stand": 8,
     "adresse": "Obere Querstraße 12",
-    "artikel": "",
+    "artikel": "Kinderkleidung, Möbel, Spielgeräte/-fahrzeuge, Jugendbücher",
     "lat": "49.6056005",
     "lon": "8.2602907"
   }
