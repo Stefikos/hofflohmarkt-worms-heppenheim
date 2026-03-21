@@ -2,42 +2,42 @@
   {
     "stand": 1,
     "adresse": "Dornfelderring 10",
-    "artikel": "",
+    "artikel": "Erwachsenenkleidung, Spielzeug",
     "lat": "49.6052182",
     "lon": "8.2577693"
   },
   {
     "stand": 2,
     "adresse": "Offsteiner Straße 12",
-    "artikel": "",
+    "artikel": "Haushalt, Spielzeug, Jugendbücher",
     "lat": "49.6080361",
     "lon": "8.2680786"
   },
   {
     "stand": 3,
     "adresse": "Obere Bahnhofstraße 10",
-    "artikel": "",
+    "artikel": "Möbel, Spielgeräte/-fahrzeuge, Kinderkleidung, Sonstiges",
     "lat": "49.6067538",
     "lon": "8.2630773"
   },
   {
     "stand": 4,
-    "adresse": "Wormser Landstraße 17",
-    "artikel": "",
-    "lat": "49.6073720",
-    "lon": "8.2735289"
+    "adresse": "Obere Bahnhofstraße 8",
+    "artikel": "Erwachsenenkleidung, Spielzeug, Jugendbücher, Sonstiges, Kinderbücher",
+    "lat": "49.6067538",
+    "lon": "8.2630773"
   },
   {
     "stand": 5,
     "adresse": "Am Graben 5",
-    "artikel": "",
+    "artikel": "Kinderkleidung, Schmuck und Sammlungen, Kinderbücher",
     "lat": "49.6072827",
     "lon": "8.2668232"
   },
   {
     "stand": 6,
     "adresse": "Dorfgrabenstraße 25",
-    "artikel": "",
+    "artikel": "Spielzeug",
     "lat": "49.6068064",
     "lon": "8.2672096"
   },
@@ -47,5 +47,12 @@
     "artikel": "Babykleidung, Kinderkleidung, Erwachsenenkleidung, Haushalt, Möbel, Schmuck und Sammlungen, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
     "lat": "49.6052747",
     "lon": "8.2641253"
+  },
+  {
+    "stand": 8,
+    "adresse": "Obere Bahnhofstraße 6",
+    "artikel": "",
+    "lat": "49.6067538",
+    "lon": "8.2630773"
   }
 ]
