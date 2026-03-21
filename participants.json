@@ -1,58 +1,58 @@
 [
   {
     "stand": 1,
-    "adresse": "Dornfelderring 10",
-    "artikel": "Erwachsenenkleidung, Spielzeug",
+    "adresse": "Dornfelderring 8",
+    "artikel": "",
     "lat": "49.6052182",
     "lon": "8.2577693"
   },
   {
     "stand": 2,
-    "adresse": "Offsteiner Straße 12",
-    "artikel": "Haushalt, Spielzeug, Jugendbücher",
-    "lat": "49.6080361",
-    "lon": "8.2680786"
+    "adresse": "Wormser Landstraße 112",
+    "artikel": "",
+    "lat": "49.6069464",
+    "lon": "8.2719670"
   },
   {
     "stand": 3,
-    "adresse": "Obere Bahnhofstraße 10",
-    "artikel": "Möbel, Spielgeräte/-fahrzeuge, Kinderkleidung, Sonstiges",
-    "lat": "49.6067538",
-    "lon": "8.2630773"
+    "adresse": "Am Offsteiner Pfad 10",
+    "artikel": "",
+    "lat": "49.6050204",
+    "lon": "8.2586828"
   },
   {
     "stand": 4,
-    "adresse": "Obere Bahnhofstraße 8",
-    "artikel": "Erwachsenenkleidung, Spielzeug, Jugendbücher, Sonstiges, Kinderbücher",
-    "lat": "49.6067538",
-    "lon": "8.2630773"
+    "adresse": "Pfälzer-Wald-Straße 15",
+    "artikel": "",
+    "lat": "49.6041455",
+    "lon": "8.2630286"
   },
   {
     "stand": 5,
-    "adresse": "Am Graben 5",
-    "artikel": "Kinderkleidung, Schmuck und Sammlungen, Kinderbücher",
-    "lat": "49.6072827",
-    "lon": "8.2668232"
-  },
-  {
-    "stand": 6,
-    "adresse": "Dorfgrabenstraße 25",
-    "artikel": "Spielzeug",
-    "lat": "49.6068064",
-    "lon": "8.2672096"
-  },
-  {
-    "stand": 7,
-    "adresse": "Wormser Landstraße 18a",
-    "artikel": "Babykleidung, Kinderkleidung, Erwachsenenkleidung, Haushalt, Möbel, Schmuck und Sammlungen, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
-    "lat": "49.6052747",
-    "lon": "8.2641253"
-  },
-  {
-    "stand": 8,
-    "adresse": "Obere Bahnhofstraße 6",
+    "adresse": "Obere Bahnhofstraße 5",
     "artikel": "",
     "lat": "49.6067538",
     "lon": "8.2630773"
+  },
+  {
+    "stand": 6,
+    "adresse": "Am Friedhof 3",
+    "artikel": "",
+    "lat": "49.6082750",
+    "lon": "8.2627947"
+  },
+  {
+    "stand": 7,
+    "adresse": "Untere Querstraße 3",
+    "artikel": "",
+    "lat": "49.6066044",
+    "lon": "8.2638750"
+  },
+  {
+    "stand": 8,
+    "adresse": "Obere Querstraße 12",
+    "artikel": "",
+    "lat": "49.6056005",
+    "lon": "8.2602907"
   }
 ]
