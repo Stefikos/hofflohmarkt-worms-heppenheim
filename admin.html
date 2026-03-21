@@ -38,7 +38,32 @@ th{
 background:#f59e0b;
 color:white;
 }
+
+td:first-child, th:first-child{
+  width:60px;
+  text-align:center;
+}
+td:first-child input{
+    width:100%;
+    box-sizing:border-box;
+  text-align:center;
+}
+
+/* 👉 NEU – Spaltenbreiten */
+th:nth-child(4), td:nth-child(4){ width:120px; } /* Status */
+th:nth-child(5), td:nth-child(5){ width:80px; }  /* Aktion */
+
+/* 👉 NEU – Hauptbereiche */
+th:nth-child(3), td:nth-child(3){ width:55%; } /* Artikel größer */
+th:nth-child(2), td:nth-child(2){ width:15%; } /* Adresse kleiner */
+
+/* 👉 wichtig für stabiles Layout */
+table{
+  table-layout: fixed;
+}
+  
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 
@@ -54,6 +79,13 @@ color:white;
 
 <button id="export">participants.json exportieren</button>
 
+<br><br>
+
+<button onclick="neuerTeilnehmer()">+ Neuer Teilnehmer</button>
+<button onclick="alleLoeschen()" style="background:red;color:white;">
+Alle Teilnehmer löschen
+</button>
+
 </div>
 
 <table id="tabelle">
@@ -67,6 +99,7 @@ color:white;
 <th>Adresse</th>
 <th>Artikel</th>
 <th>Status</th>
+<th>Aktion</th>
 </tr>
 </thead>
 
@@ -80,6 +113,7 @@ const input = document.getElementById("fotoInput");
 const tbody = document.querySelector("#tabelle tbody");
 
 let daten = JSON.parse(localStorage.getItem("hofflohmarkt")) || [];
+let aktuelleAuswahl = -1;
 
 function speichern(){
 localStorage.setItem("hofflohmarkt", JSON.stringify(daten));
@@ -94,15 +128,31 @@ daten.forEach(e=>{
 const row=document.createElement("tr");
 
 row.innerHTML = `
-<td>${e.stand}</td>
-
-<td> 
-${renderArtikelCheckboxen(e)}
+<td>
+<input 
+value="${e.stand}" 
+onchange="updateStand(${e.stand}, this.value)"
+style="width:60px">
 </td>
 
-<td contenteditable="true" 
-onblur="updateArtikel(${e.stand}, this.innerText)">
-${e.artikel}
+<td>
+<div style="position:relative">
+
+<input 
+value="${e.adresse}" 
+oninput="autocompleteStrasse(${e.stand}, this.value)"
+onkeydown="navigateAutocomplete(event, ${e.stand})"
+onchange="updateAdresse(${e.stand}, this.value)"
+style="width:95%">
+
+<div id="auto-${e.stand}" 
+style="position:absolute; background:white; border:1px solid #ccc; display:none; z-index:1000">
+</div>
+
+</div>
+</td>
+<td>
+${renderArtikelCheckboxen(e)}
 </td>
 
 <td>${e.status}</td>
@@ -125,7 +175,9 @@ input.addEventListener("change", async e=>{
 const file=e.target.files[0];
 if(!file) return;
 
-const neuerStand = daten.length+1;
+const neuerStand = daten.length > 0
+  ? Math.max(...daten.map(e => e.stand)) + 1
+  : 1;
 
 const eintrag={
 stand:neuerStand,
@@ -192,25 +244,12 @@ try{
 const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(adresse + ", 67551 Worms-Heppenheim"));
 const data = await res.json();
 
-if(data.length > 0){
-letzter.latitude = data[0].lat;
-letzter.longitude = data[0].lon;
-adresseGefunden = true;
-}
+
 }catch(e){}
 
 letzter.adresse = adresse;
 letzter.artikel = artikel.join(", ");
-if(!adresseGefunden){
-  letzter.status = "⚠ Adresse prüfen";
-}
-else if(artikel.length === 0){
-  letzter.status = "⚠ Artikel prüfen";
-}
-else{
-  letzter.status = "✔";
-}
-
+letzter.status = artikel.length > 0 ? "✔" : "⚠ Artikel prüfen";
 speichern();
 tabelleAktualisieren();
 
@@ -241,16 +280,44 @@ const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&
 const data = await res.json();
 
 if(data.length > 0){
-eintrag.latitude = data[0].lat;
-eintrag.longitude = data[0].lon;
-gefunden = true;
+
+  const treffer = data[0];
+  const display = treffer.display_name.toLowerCase();
+  const eingabe = wert
+  	.toLowerCase()
+	.replace("wormser ", "");
+
+  const hatHausnummer = /\d+/.test(eingabe);
+  const hatStrasse = /[a-zäöüß]{3,}/i.test(eingabe);
+
+  const istNurZahl = /^\d+$/.test(eingabe);
+  const istPLZ = /^\d{4,5}$/.test(eingabe);
+  const istOrt = eingabe.includes("worms") || eingabe.includes("heppenheim");
+
+  const valideEingabe =
+    hatHausnummer &&
+    hatStrasse &&
+    !istNurZahl &&
+    !istPLZ &&
+    !istOrt;
+
+  const istInWorms = display.includes("worms");
+
+  if(valideEingabe && istInWorms){
+    eintrag.latitude = treffer.lat;
+    eintrag.longitude = treffer.lon;
+    gefunden = true;
+  }
+
 }
+
 }catch(e){}
 
 eintrag.status = gefunden ? "✔" : "⚠ Adresse prüfen";
 
 speichern();
 tabelleAktualisieren();
+
 }
 
 function updateArtikel(stand, wert){
@@ -278,7 +345,6 @@ if(data.length > 0){
 
 eintrag.latitude = data[0].lat;
 eintrag.longitude = data[0].lon;
-eintrag.status = "✔ Adresse gefunden";
 
 }else{
 
@@ -312,9 +378,20 @@ const liste = [
 "Sonstiges"
 ];
 
-return liste.map(a => {
-const checked = e.artikel && e.artikel.includes(a) ? "checked" : "";
+const aktuell = e.artikel || "Artikel auswählen";
 
+return `
+<div style="position:relative">
+
+<button onclick="toggleDropdown(${e.stand})" style="width:100%; text-align:left; padding:5px; background:#eee; border:1px solid #ccc;">
+${aktuell}
+</button>
+
+<div id="dropdown-${e.stand}" 
+style="display:none; position:absolute; background:white; border:1px solid #ccc; padding:5px; z-index:1000">
+
+${liste.map(a => {
+const checked = aktuell.includes(a) ? "checked" : "";
 return `
 <label style="display:block">
 <input type="checkbox" 
@@ -323,7 +400,11 @@ onchange="toggleArtikel(${e.stand}, '${a}')">
 ${a}
 </label>
 `;
-}).join("");
+}).join("")}
+
+</div>
+</div>
+`;
 }
 
 function toggleArtikel(stand, artikel){
@@ -343,8 +424,197 @@ eintrag.artikel = liste.join(", ");
 eintrag.status = "✏️ geändert";
 
 speichern();
-tabelleAktualisieren();
+
+// Text im Button aktualisieren
+const btn = document.querySelector(`#dropdown-${stand}`).previousElementSibling;
+
+btn.innerText = liste.length > 0 ? liste.join(", ") : "Artikel auswählen";
+
 }
+
+function neuerTeilnehmer(){
+
+const neuerStand = daten.length > 0
+  ? Math.max(...daten.map(e => e.stand)) + 1
+  : 1;
+
+daten.push({
+stand: neuerStand,
+adresse: "",
+artikel: "",
+status: "✏️ neu"
+});
+
+speichern();
+tabelleAktualisieren();
+
+setTimeout(() => {
+  const letzteZeile = document.querySelector("#tabelle tbody tr:last-child");
+  if(letzteZeile){
+    const input = letzteZeile.querySelector("td:nth-child(2) input");
+    if(input){
+      input.focus();
+      input.select();
+    }
+  }
+}, 100);
+}
+
+function toggleDropdown(stand){
+
+const el = document.getElementById("dropdown-"+stand);
+
+if(el.style.display === "none"){
+el.style.display = "block";
+}else{
+el.style.display = "none";
+}
+}
+
+function updateStand(alteNummer, neueNummer){
+
+const eintrag = daten.find(e => e.stand === alteNummer);
+if(!eintrag) return;
+
+eintrag.stand = Number(neueNummer);
+
+speichern();
+tabelleAktualisieren();
+
+}
+
+function alleLoeschen(){
+
+if(confirm("Wirklich ALLE Teilnehmer löschen? Das kann nicht rückgängig gemacht werden.")){
+
+daten = [];
+
+speichern();
+tabelleAktualisieren();
+
+}
+
+}
+
+async function autocompleteStrasse(stand, text){
+console.log("Autocomplete läuft", text);
+
+const box = document.getElementById("auto-"+stand);
+
+if(text.length < 3){
+  box.style.display = "none";
+  return;
+}
+
+try{
+
+const res = await fetch(
+"https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q="
++ encodeURIComponent(text + ", 67551 Worms-Heppenheim")
+);
+
+const data = await res.json();
+
+const strassen = data
+  .map(e => e.display_name.split(",")[0])
+  .filter((v,i,a) => a.indexOf(v) === i);
+
+if(strassen.length === 0){
+  box.style.display = "none";
+  return;
+}
+
+aktuelleAuswahl = -1;
+
+box.innerHTML = strassen.map((s,i) => `
+<div 
+id="opt-${stand}-${i}"
+style="padding:5px; cursor:pointer"
+onclick="selectStrasse(${stand}, '${s}')">
+${s}
+</div>
+`).join("");
+
+box.style.display = "block";
+
+}catch(e){
+box.style.display = "none";
+}
+
+}
+
+function selectStrasse(stand, strasse){
+
+const input = document.querySelector(`#auto-${stand}`).previousElementSibling;
+
+input.value = strasse + " ";
+
+document.getElementById("auto-"+stand).style.display = "none";
+aktuelleAuswahl = -1;
+}
+
+function navigateAutocomplete(e, stand){
+
+const box = document.getElementById("auto-"+stand);
+const items = box.children;
+
+if(box.style.display === "none") return;
+
+if(e.key === "ArrowDown"){
+  e.preventDefault();
+  aktuelleAuswahl++;
+}
+
+if(e.key === "ArrowUp"){
+  e.preventDefault();
+  aktuelleAuswahl--;
+}
+
+if(e.key === "Enter" && box.style.display !== "none"){
+  e.preventDefault();
+
+  if(aktuelleAuswahl >= 0 && items[aktuelleAuswahl]){
+    items[aktuelleAuswahl].click();
+  }
+
+  // Dropdown schließen
+  box.style.display = "none";
+  aktuelleAuswahl = -1;
+}
+
+if(aktuelleAuswahl < 0) aktuelleAuswahl = 0;
+if(aktuelleAuswahl >= items.length) aktuelleAuswahl = items.length - 1;
+
+for(let i=0;i<items.length;i++){
+  items[i].style.background = i === aktuelleAuswahl ? "#ddd" : "white";
+}
+
+}
+
+document.getElementById("export").addEventListener("click", () => {
+
+const datenExport = daten.map(e => ({
+  stand: e.stand,
+  adresse: e.adresse,
+  artikel: e.artikel,
+  lat: e.latitude,
+  lon: e.longitude
+}));
+
+const blob = new Blob([JSON.stringify(datenExport, null, 2)], {
+  type: "application/json"
+});
+
+const url = URL.createObjectURL(blob);
+
+const a = document.createElement("a");
+a.href = url;
+a.download = "participants.json";
+a.click();
+
+URL.revokeObjectURL(url);
+
+});
 
 </script>
 
