@@ -98,13 +98,6 @@
     "lon": "8.2672096"
   },
   {
-    "stand": 15,
-    "adresse": "Dornfelderring 6",
-    "artikel": "Spielzeug, Sonstiges",
-    "lat": "49.6052182",
-    "lon": "8.2577693"
-  },
-  {
     "stand": 16,
     "adresse": "Wormser Landstraße 75",
     "artikel": "Erwachsenenkleidung, Haushalt, Möbel, Schmuck und Sammlungen, Spielzeug, Erwachsenenbücher, Sonstiges",
@@ -166,13 +159,6 @@
     "artikel": "Babykleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
     "lat": "49.6073720",
     "lon": "8.2735289"
-  },
-  {
-    "stand": 25,
-    "adresse": "Pfälzer-Wald-Straße 1b",
-    "artikel": "Sonstiges",
-    "lat": "49.6041455",
-    "lon": "8.2630286"
   },
   {
     "stand": 26,
