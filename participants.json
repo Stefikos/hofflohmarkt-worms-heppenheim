@@ -1,58 +1,261 @@
 [
   {
     "stand": 1,
-    "adresse": "Dornfelderring 8",
-    "artikel": "Kinderkleidung, Möbel, Spielzeug, Kinderbücher",
+    "adresse": "Dornfelderring 34",
+    "artikel": "Erwachsenenkleidung, Haushalt, Möbel, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6060276",
+    "lon": "8.2578798"
+  },
+  {
+    "stand": 2,
+    "adresse": "Dornfelderring 6",
+    "artikel": "Babykleidung, Kinderkleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
     "lat": "49.6052182",
     "lon": "8.2577693"
   },
   {
-    "stand": 2,
-    "adresse": "Wormser Landstraße 112",
-    "artikel": "Haushalt, Spielgeräte/-fahrzeuge, Schmuck und Sammlungen",
-    "lat": "49.6069464",
-    "lon": "8.2719670"
-  },
-  {
     "stand": 3,
-    "adresse": "Am Offsteiner Pfad 10",
-    "artikel": "Möbel",
-    "lat": "49.6050204",
-    "lon": "8.2586828"
+    "adresse": "Wormser Landstraße 34",
+    "artikel": "Erwachsenenkleidung, Haushalt, Möbel, Sonstiges",
+    "lat": "49.6054621",
+    "lon": "8.2659119"
   },
   {
     "stand": 4,
-    "adresse": "Pfälzer-Wald-Straße 15",
-    "artikel": "Erwachsenenkleidung, Jugendbücher, Spielgeräte/-fahrzeuge, Schmuck und Sammlungen",
+    "adresse": "Pfälzer-Wald-Straße 1b",
+    "artikel": "Sonstiges",
     "lat": "49.6041455",
     "lon": "8.2630286"
   },
   {
     "stand": 5,
-    "adresse": "Obere Bahnhofstraße 5",
-    "artikel": "Erwachsenenkleidung, Möbel, Spielgeräte/-fahrzeuge, Sonstiges, Jugendbücher",
+    "adresse": "Dornfelderring 24",
+    "artikel": "Kinderkleidung, Erwachsenenkleidung, Spielzeug, Spielgeräte/-fahrzeuge, Erwachsenenbücher",
+    "lat": "49.6057643",
+    "lon": "8.2567232"
+  },
+  {
+    "stand": 6,
+    "adresse": "Wormser Landstraße 37",
+    "artikel": "Kinderkleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Erwachsenenbücher",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 7,
+    "adresse": "Untere Bahnhofstraße 8",
+    "artikel": "Erwachsenenkleidung, Haushalt, Möbel, Spielzeug, Sonstiges",
+    "lat": "49.6065503",
+    "lon": "8.2660426"
+  },
+  {
+    "stand": 8,
+    "adresse": "Wormser Landstraße 136",
+    "artikel": "Erwachsenenkleidung, Haushalt, Spielzeug, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 9,
+    "adresse": "Obere Bahnhofstraße 11",
+    "artikel": "Babykleidung, Kinderkleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
     "lat": "49.6067538",
     "lon": "8.2630773"
   },
   {
-    "stand": 6,
-    "adresse": "Am Friedhof 3",
-    "artikel": "Erwachsenenkleidung, Schmuck und Sammlungen, Jugendbücher, Spielgeräte/-fahrzeuge",
-    "lat": "49.6082750",
-    "lon": "8.2627947"
+    "stand": 10,
+    "adresse": "Wormser Landstraße 39",
+    "artikel": "Haushalt, Schmuck und Sammlungen, Spielzeug, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
   },
   {
-    "stand": 7,
-    "adresse": "Untere Querstraße 3",
-    "artikel": "Kinderkleidung, Möbel, Jugendbücher, Spielgeräte/-fahrzeuge",
-    "lat": "49.6066044",
-    "lon": "8.2638750"
+    "stand": 11,
+    "adresse": "Im Gehrchen 31",
+    "artikel": "Kinderkleidung, Erwachsenenkleidung, Haushalt, Möbel, Spielzeug, Spielgeräte/-fahrzeuge, Jugendbücher, Erwachsenenbücher, Kinderbücher, Sonstiges, Babykleidung",
+    "lat": "49.6083735",
+    "lon": "8.2738498"
   },
   {
-    "stand": 8,
-    "adresse": "Obere Querstraße 12",
-    "artikel": "Kinderkleidung, Möbel, Spielgeräte/-fahrzeuge, Jugendbücher",
-    "lat": "49.6056005",
-    "lon": "8.2602907"
+    "stand": 12,
+    "adresse": "Wormser Landstraße 97",
+    "artikel": "Babykleidung, Haushalt, Spielzeug, Spielgeräte/-fahrzeuge, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 13,
+    "adresse": "Dornfelderring 56",
+    "artikel": "Kinderkleidung, Haushalt, Spielzeug, Kinderbücher, Jugendbücher",
+    "lat": "49.6047038",
+    "lon": "8.2571295"
+  },
+  {
+    "stand": 14,
+    "adresse": "Dorfgrabenstraße 1",
+    "artikel": "Kinderkleidung, Spielzeug, Kinderbücher, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6068064",
+    "lon": "8.2672096"
+  },
+  {
+    "stand": 15,
+    "adresse": "Dornfelderring 6",
+    "artikel": "Spielzeug, Sonstiges",
+    "lat": "49.6052182",
+    "lon": "8.2577693"
+  },
+  {
+    "stand": 16,
+    "adresse": "Wormser Landstraße 75",
+    "artikel": "Erwachsenenkleidung, Haushalt, Möbel, Schmuck und Sammlungen, Spielzeug, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 17,
+    "adresse": "Dornfelderring 4",
+    "artikel": "Babykleidung, Kinderkleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher",
+    "lat": "49.6046413",
+    "lon": "8.2556661"
+  },
+  {
+    "stand": 18,
+    "adresse": "Frankenthaler Weg 5",
+    "artikel": "Haushalt, Schmuck und Sammlungen, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6062883",
+    "lon": "8.2723310"
+  },
+  {
+    "stand": 19,
+    "adresse": "Wormser Landstraße 60",
+    "artikel": "Erwachsenenkleidung, Haushalt, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 20,
+    "adresse": "Wormser Landstraße 9",
+    "artikel": "Haushalt, Möbel, Schmuck und Sammlungen, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher, Jugendbücher, Erwachsenenbücher",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 21,
+    "adresse": "Dirmsteiner Weg 10",
+    "artikel": "Kinderkleidung, Erwachsenenkleidung, Haushalt, Schmuck und Sammlungen, Spielzeug, Sonstiges",
+    "lat": "49.6021623",
+    "lon": "8.2637696"
+  },
+  {
+    "stand": 22,
+    "adresse": "Dorfgrabenstraße 86a",
+    "artikel": "Sonstiges, Kinderkleidung, Erwachsenenkleidung, Haushalt, Schmuck und Sammlungen, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher",
+    "lat": "49.6068064",
+    "lon": "8.2672096"
+  },
+  {
+    "stand": 23,
+    "adresse": "Wormser Landstraße 129",
+    "artikel": "Haushalt, Möbel, Spielzeug, Spielgeräte/-fahrzeuge, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 24,
+    "adresse": "Wormser Landstraße 15",
+    "artikel": "Babykleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Kinderbücher, Jugendbücher, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 25,
+    "adresse": "Pfälzer-Wald-Straße 1b",
+    "artikel": "Sonstiges",
+    "lat": "49.6041455",
+    "lon": "8.2630286"
+  },
+  {
+    "stand": 26,
+    "adresse": "Pfälzer-Wald-Straße 45",
+    "artikel": "Erwachsenenkleidung, Haushalt, Erwachsenenbücher, Sonstiges",
+    "lat": "49.6038174",
+    "lon": "8.2597022"
+  },
+  {
+    "stand": 27,
+    "adresse": "Wormser Landstraße 124b",
+    "artikel": "Erwachsenenkleidung, Haushalt, Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 28,
+    "adresse": "Kirchhofgasse 1",
+    "artikel": "Erwachsenenkleidung, Haushalt, Sonstiges",
+    "lat": "49.6045835",
+    "lon": "8.2639899"
+  },
+  {
+    "stand": 29,
+    "adresse": "Obere Bahnhofstraße 6",
+    "artikel": "Kinderkleidung, Haushalt, Spielzeug, Spielgeräte/-fahrzeuge, Kinderbücher, Jugendbücher, Erwachsenenbücher",
+    "lat": "49.6067538",
+    "lon": "8.2630773"
+  },
+  {
+    "stand": 30,
+    "adresse": "Ortegaweg 10",
+    "artikel": "Kinderkleidung, Haushalt, Spielzeug, Spielgeräte/-fahrzeuge, Sonstiges",
+    "lat": "49.6052236",
+    "lon": "8.2568993"
+  },
+  {
+    "stand": 31,
+    "adresse": "Pfälzer-Wald-Straße 30",
+    "artikel": "Haushalt, Sonstiges",
+    "lat": "49.6041455",
+    "lon": "8.2630286"
+  },
+  {
+    "stand": 32,
+    "adresse": "Bergwiesenstraße 9",
+    "artikel": "Kinderkleidung, Erwachsenenkleidung, Haushalt, Spielzeug, Sonstiges",
+    "lat": "49.6023576",
+    "lon": "8.2651175"
+  },
+  {
+    "stand": 33,
+    "adresse": "Wormser Landstraße 52",
+    "artikel": "Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 34,
+    "adresse": "Jakob-Schöner-Straße 12",
+    "artikel": "Sonstiges",
+    "lat": "49.6053807",
+    "lon": "8.2612408"
+  },
+  {
+    "stand": 35,
+    "adresse": "Im Gehrchen 23",
+    "artikel": "Sonstiges",
+    "lat": "49.6081576",
+    "lon": "8.2716900"
+  },
+  {
+    "stand": 36,
+    "adresse": "Wormser Landstraße 58",
+    "artikel": "Sonstiges",
+    "lat": "49.6073720",
+    "lon": "8.2735289"
+  },
+  {
+    "stand": 37,
+    "adresse": "Pfälzer-Wald-Straße 92",
+    "artikel": "Sonstiges",
+    "lat": "49.6041455",
+    "lon": "8.2630286"
   }
 ]
