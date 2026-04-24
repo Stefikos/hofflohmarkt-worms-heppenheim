@@ -142,7 +142,7 @@ style="width:60px">
 value="${e.adresse}" 
 oninput="autocompleteStrasse(${e.stand}, this.value)"
 onkeydown="navigateAutocomplete(event, ${e.stand})"
-onchange="updateAdresse(${e.stand}, this.value)"
+onblur="updateAdresse(${e.stand}, this.value)"
 style="width:95%">
 
 <div id="auto-${e.stand}" 
@@ -264,6 +264,8 @@ tabelleAktualisieren();
 
 async function updateAdresse(stand, wert){
 
+console.log("UPDATE ADRESSE WIRD AUFGERUFEN");
+
 const eintrag = daten.find(e => e.stand === stand);
 if(!eintrag) return;
 
@@ -275,44 +277,28 @@ tabelleAktualisieren();
 
 let gefunden = false;
 
-try{
-const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(wert + ", 67551 Worms-Heppenheim"));
+const apiKey = "AIzaSyCoBoC29F2BjRPbNjZPpUpFCziuJ4eKzro";
+
+const url = "https://maps.googleapis.com/maps/api/geocode/json?address=" 
+  + encodeURIComponent(wert + ", 67551 Worms-Heppenheim")
+  + "&key=" + apiKey;
+
+const res = await fetch(url);
 const data = await res.json();
 
-if(data.length > 0){
+console.log("Google Antwort:", data);
 
-  const treffer = data[0];
-  const display = treffer.display_name.toLowerCase();
-  const eingabe = wert
-  	.toLowerCase()
-	.replace("wormser ", "");
+gefunden = false;
 
-  const hatHausnummer = /\d+/.test(eingabe);
-  const hatStrasse = /[a-zäöüß]{3,}/i.test(eingabe);
+if(data.status === "OK" && data.results.length > 0){
 
-  const istNurZahl = /^\d+$/.test(eingabe);
-  const istPLZ = /^\d{4,5}$/.test(eingabe);
-  const istOrt = eingabe.includes("worms") || eingabe.includes("heppenheim");
+  const loc = data.results[0].geometry.location;
 
-  const valideEingabe =
-    hatHausnummer &&
-    hatStrasse &&
-    !istNurZahl &&
-    !istPLZ &&
-    !istOrt;
+  eintrag.latitude = loc.lat;
+  eintrag.longitude = loc.lng;
 
-  const istInWorms = display.includes("worms");
-
-  if(valideEingabe && istInWorms){
-    eintrag.latitude = treffer.lat;
-    eintrag.longitude = treffer.lon;
-    gefunden = true;
-  }
-
+  gefunden = true;
 }
-
-}catch(e){}
-
 eintrag.status = gefunden ? "✔" : "⚠ Adresse prüfen";
 
 speichern();
@@ -340,6 +326,10 @@ const adresse = eintrag.adresse + ", Worms";
 try{
 const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q="+encodeURIComponent(adresse));
 const data = await res.json();
+
+console.log("Google Antwort:", data);
+console.log("Google Status:", data.status);
+console.log("Goolgle Ergebnisse:", data.results);
 
 if(data.length > 0){
 
