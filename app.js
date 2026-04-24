@@ -44,9 +44,9 @@ kinderkleidung: "Kinderkleidung",
 erwachsenenkleidung: "Erwachsenenkleidung",
 haushalt: "Haushalt",
 moebel: "Möbel",
-schmuck: "Schmuck",
+schmuck: "Schmuck und Sammlungen",
 spielzeug: "Spielzeug",
-spielgeraete: "Spielgeräte",
+spielgeraete: "Spielgeräte/-fahrzeuge",
 kinderbuecher: "Kinderbücher",
 jugendbuecher: "Jugendbücher",
 erwachsenenbuecher: "Erwachsenenbücher",
@@ -65,7 +65,7 @@ function normalize(text){
 }
 
 // Daten laden
-fetch("participants.json")
+fetch("participants.json?x=" + Date.now())
 .then(r => r.json())
 .then(data => {
 
@@ -108,30 +108,36 @@ data.forEach(p => {
 
   if(p.lat && p.lon){
 
-    const marker = L.marker([
-      parseFloat(p.lat),
-      parseFloat(p.lon)
-    ],{
-      icon: L.divIcon({
-        className: "",
-        html: `<div style="
-          background:#f59e0b;
-          color:black;
-          width:30px;
-          height:30px;
-          border-radius:50%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-weight:bold;
-          font-size:14px;
-          border:2px solid white;
-        ">
-          ${p.stand}
-        </div>`
-      })
-    }).addTo(map);
+console.log("Marker Position:", p.stand, p.lat, p.lon);
 
+   const baseLat = parseFloat(p.lat);
+const baseLon = parseFloat(p.lon);
+
+// 👉 kleiner Versatz gegen Überlagerung
+const lat = baseLat + (Math.random() - 0.5) * 0.0003;
+const lon = baseLon + (Math.random() - 0.5) * 0.0003;
+
+const marker = L.marker([lat, lon], {
+  icon: L.divIcon({
+    className: "",
+    html: `<div style="
+      background:#f59e0b;
+      color:black;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      font-size:14px;
+      border:2px solid white;
+    ">
+      ${p.stand}
+    </div>`
+  })
+}).addTo(map);
+       
     const artikelText = artikelArray
       .map(a => {
         const key = Object.keys(artikelNamen).find(k => normalize(artikelNamen[k]) === a);
@@ -179,5 +185,8 @@ markerList.forEach(m => {
 });
 
 });
+
+console.log("Geladene Datensätze:", data.length);
+console.log("Erstellte Marker:", markerList.length);
 
 });
