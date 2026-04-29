@@ -110,12 +110,8 @@ data.forEach(p => {
 
 console.log("Marker Position:", p.stand, p.lat, p.lon);
 
-   const baseLat = parseFloat(p.lat);
-const baseLon = parseFloat(p.lon);
-
-// 👉 kleiner Versatz gegen Überlagerung
-const lat = baseLat + (Math.random() - 0.5) * 0.0003;
-const lon = baseLon + (Math.random() - 0.5) * 0.0003;
+   const lat = parseFloat(p.lat);
+   const lon = parseFloat(p.lon);
 
 const marker = L.marker([lat, lon], {
   icon: L.divIcon({
@@ -145,16 +141,18 @@ const marker = L.marker([lat, lon], {
       })
       .join("<br>");
 
-    marker.bindPopup(
-      "<b>Stand "+p.stand+"</b><br>"+
-      p.adresse+
-      "<br><br>"+
-      artikelText+
-      "<br><br>"+
-      "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&destination="
-      +p.lat+","+p.lon+
-      "'>📍 Route starten</a>"
-    );
+   const url = "https://www.google.com/maps/dir/?api=1"
+  + "&origin=Current+Location"
+  + "&destination=" + encodeURIComponent(p.adresse);
+    
+marker.bindPopup(
+  "<b>Stand "+p.stand+"</b><br>"+
+  p.adresse+
+  "<br><br>"+
+  artikelText+
+  "<br><br>"+
+  "<a target='_blank' href='" + url + "'>📍 Route starten</a>"
+);
 
     marker.artikel = artikelArray;
 
