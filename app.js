@@ -1,8 +1,9 @@
 const map = L.map('map',{zoomControl:false}).setView([49.6038,8.2636],16);
 
 // Karte
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
- attribution:'© OpenStreetMap'
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 19
 }).addTo(map);
 
 // Standort
